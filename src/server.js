@@ -1,19 +1,23 @@
-const express = require('express');
-const mongoose = require('mongoose');
+import dotenv from "dotenv";
+dotenv.config();
+import express from "express";
+import mongoose from "mongoose";
 const app = express();
+import cors from "cors";
+app.use(cors());
 
 app.use(express.json());
 
 // ====== MongoDB CONNECT ======
-mongoose.connect('mongodb://127.0.0.1:27017/oldnews')
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
 // ====== ROUTES ======
-const authRoutes = require('./routes/authRoutes');
-const documentRoutes = require('./routes/documentRoutes');
-const submissionRoutes = require('./routes/submissionRoutes');
-const editorRoutes = require('./routes/editorRoutes');
+import authRoutes from "./routes/authRoutes.js";
+import documentRoutes from "./routes/documentRoutes.js";
+import submissionRoutes from "./routes/submissionRoutes.js";
+import editorRoutes from "./routes/editorRoutes.js";
 
 app.use('/auth', authRoutes);
 app.use('/documents', documentRoutes);

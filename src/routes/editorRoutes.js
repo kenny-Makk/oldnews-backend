@@ -1,6 +1,6 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const editorController = require('../controllers/editorController');
+import * as editorController from "../controllers/editorController.js";
 
 // Editor のレビュー用
 router.get('/inbox', editorController.getInbox);
@@ -9,4 +9,4 @@ router.post('/submissions/:id/reject', editorController.rejectSubmission);
 router.post('/publish/:id', editorController.publishDocument);
 router.post('/pull/:id', editorController.pullDocument);
 
-module.exports = router;
+export default router;

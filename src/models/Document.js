@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const documentSchema = new mongoose.Schema({
   ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
@@ -12,4 +12,4 @@ const documentSchema = new mongoose.Schema({
   version: { type: Number, default: 1 }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Document', documentSchema);
+export default mongoose.model("Document", documentSchema);

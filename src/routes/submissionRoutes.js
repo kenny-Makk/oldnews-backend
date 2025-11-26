@@ -1,8 +1,8 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const submissionController = require('../controllers/submissionController');
+import * as submissionController from "../controllers/submissionController.js";
 
 // Writer/Editor 共通の提出データ取得
 router.get('/', submissionController.getAllSubmissions);
 
-module.exports = router;
+export default router;

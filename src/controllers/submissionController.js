@@ -1,3 +1,3 @@
-exports.getAllSubmissions = (req, res) => {
+export const getAllSubmissions = (req, res) => {
   res.send("GET SUBMISSIONS: Not implemented yet");
 };

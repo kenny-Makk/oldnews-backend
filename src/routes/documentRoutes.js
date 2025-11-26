@@ -1,7 +1,7 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
-const documentController = require('../controllers/documentController');
-const authMiddleware = require("../middleware/authMiddleware");
+import * as documentController from "../controllers/documentController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 router.post('/create',authMiddleware, documentController.createDocument);
 router.get('/my',authMiddleware, documentController.getMyDocuments);
@@ -9,4 +9,4 @@ router.put('/:id',authMiddleware, documentController.updateDocument);
 router.delete('/:id',authMiddleware, documentController.deleteDocument);
 router.post('/:id/submit',authMiddleware, documentController.submitDocument);
 
-module.exports = router;
+export default router;

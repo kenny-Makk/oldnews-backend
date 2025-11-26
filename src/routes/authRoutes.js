@@ -1,11 +1,11 @@
-const express = require('express');
+import express from "express";
 const router = express.Router();
 
 // controllers は後で作る
-const authController = require('../controllers/authController');
+import * as authController from "../controllers/authController.js";
 
 // 認証ルートの箱だけ先に用意
 router.post('/register', authController.register);
 router.post('/login', authController.login);
 
-module.exports = router;
+export default router;

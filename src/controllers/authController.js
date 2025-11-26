@@ -1,10 +1,11 @@
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import User from '../models/User.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 // ===== REGISTER =====
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   try {
+    console.log("Login request received:", req.body); 
     const { name, email, password, role } = req.body;
 
     // email の重複チェック
@@ -29,7 +30,7 @@ exports.register = async (req, res) => {
 };
 
 // ===== LOGIN =====
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -44,7 +45,7 @@ exports.login = async (req, res) => {
     // JWT 発行
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      "SECRET_KEY",
+      process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 

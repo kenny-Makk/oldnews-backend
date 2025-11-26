@@ -1,6 +1,6 @@
-const Document = require("../models/Document");
+import Document from "../models/Document.js";
 
-exports.createDocument = async (req, res) => {
+export const createDocument = async (req, res) => {
   try {
     const { title, content } = req.body;
 
@@ -28,7 +28,7 @@ exports.createDocument = async (req, res) => {
   }
 };
 
-exports.getMyDocuments = async (req, res) => {
+export const getMyDocuments = async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -41,7 +41,7 @@ exports.getMyDocuments = async (req, res) => {
   }
 };
 
-exports.updateDocument = async (req, res) => {
+export const updateDocument = async (req, res) => {
   try {
     const userId = req.user.id;
     const documentId = req.params.id;
@@ -80,7 +80,7 @@ exports.updateDocument = async (req, res) => {
   }
 };
 
-exports.deleteDocument = async (req, res) => {
+export const deleteDocument = async (req, res) => {
   try {
     const userId = req.user.id;
     const documentId = req.params.id;
@@ -110,6 +110,6 @@ exports.deleteDocument = async (req, res) => {
   }
 };
 
-exports.submitDocument = (req, res) => {
+export const submitDocument = (req, res) => {
   res.send("SUBMIT DOCUMENT: Not implemented yet");
 };
