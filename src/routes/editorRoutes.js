@@ -1,12 +1,29 @@
-import express from "express";
-const router = express.Router();
-import * as editorController from "../controllers/editorController.js";
+// Routes exclusively for editors to process submissions
+import { Router } from "express";
+import { 
+  getInbox,
+  approveSubmission,
+  rejectSubmission,
+  publishDocument,
+  getApprovedList
+} from "../controllers/editorController.js";
 
-// Editor のレビュー用
-router.get('/inbox', editorController.getInbox);
-router.post('/submissions/:id/approve', editorController.approveSubmission);
-router.post('/submissions/:id/reject', editorController.rejectSubmission);
-router.post('/publish/:id', editorController.publishDocument);
-router.post('/pull/:id', editorController.pullDocument);
+// JWT validation for all editor actions
+import authMiddleware from "../middleware/authMiddleware.js";
+// Authorization: only users with role 'editor' can access these routes
+import editorOnly from "../middleware/editorOnly.js";
+
+const router = Router();
+
+// Editor sees all pending submissions from writers
+router.get("/inbox", authMiddleware, editorOnly, getInbox);
+// Editor approves a submission
+router.post("/approve/:id", authMiddleware, editorOnly, approveSubmission);
+// Editor rejects a submission
+router.post("/reject/:id", authMiddleware, editorOnly, rejectSubmission);
+// Editor publishes an approved document
+router.post("/publish/:id", authMiddleware, editorOnly, publishDocument);
+// Editor views list of approved submissions
+router.get("/approved", authMiddleware, editorOnly, getApprovedList);
 
 export default router;

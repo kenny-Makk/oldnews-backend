@@ -1,3 +1,23 @@
+/**
+ * Middleware: authMiddleware
+ * -------------------------
+ * Purpose:
+ *   - Validates incoming JWT tokens sent by the client.
+ *   - Ensures that only authenticated users can access protected routes.
+ *
+ * Behaviour:
+ *   - Looks for Authorization header: "Bearer <token>".
+ *   - If missing → return 401 "No token provided".
+ *   - If token is present → verifies using process.env.JWT_SECRET.
+ *   - On success → attaches decoded { id, role } to req.user.
+ *   - On failure → return 401 "Invalid or expired token".
+ *
+ * Used in:
+ *   - All protected routes (documents, submissions, editor inbox, etc.)
+ *
+ * Note:
+ *   - The JWT secret must be stored in environment variables (.env).
+ */
 import jwt from "jsonwebtoken";
 
 const authMiddleware = (req, res, next) => {

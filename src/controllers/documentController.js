@@ -1,5 +1,16 @@
+/**
+ * Document Controller
+ * Handles creating, updating, deleting, and retrieving documents.
+ * These endpoints are used by both Writer and Editor roles.
+ */
 import Document from "../models/Document.js";
 
+/**
+ * POST /documents/create
+ * Creates a new draft document for the logged‑in writer.
+ * Requires: title, content
+ * Response: Newly created document (state = "draft")
+ */
 export const createDocument = async (req, res) => {
   try {
     const { title, content } = req.body;
@@ -23,11 +34,18 @@ export const createDocument = async (req, res) => {
     return res.status(201).json(newDoc);
   } catch (error) {
     console.error("Create Document Error:", error);
-    return res.status(500).json({ message: "Server error while creating document",
-    error: error.message, });
+    return res.status(500).json({
+      message: "Server error while creating document",
+      error: error.message,
+    });
   }
 };
 
+/**
+ * GET /documents/mine
+ * Returns all documents that belong to the logged‑in user.
+ * Sorted by last updated date (newest first).
+ */
 export const getMyDocuments = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -41,6 +59,11 @@ export const getMyDocuments = async (req, res) => {
   }
 };
 
+/**
+ * PUT /documents/:id
+ * Allows a writer to update their own document.
+ * Automatically increases the version number.
+ */
 export const updateDocument = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -80,6 +103,10 @@ export const updateDocument = async (req, res) => {
   }
 };
 
+/**
+ * DELETE /documents/:id
+ * Deletes a document owned by the logged‑in user.
+ */
 export const deleteDocument = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -112,4 +139,24 @@ export const deleteDocument = async (req, res) => {
 
 export const submitDocument = (req, res) => {
   res.send("SUBMIT DOCUMENT: Not implemented yet");
+};
+
+/**
+ * GET /documents/published
+ * Returns all documents that have state = "published".
+ * Used by both writers and editors to view published content.
+ */
+export const getPublishedDocuments = async (req, res) => {
+  try {
+    const docs = await Document.find({ state: "published" })
+      .sort({ updatedAt: -1 });
+
+    return res.json(docs);
+  } catch (error) {
+    console.error("Get Published Documents Error:", error);
+    return res.status(500).json({
+      message: "Server error while fetching published documents",
+      error: error.message
+    });
+  }
 };
